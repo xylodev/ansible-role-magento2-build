@@ -1,0 +1,38 @@
+---
+__magento_vhost_dir: "/var/www/html"
+__magento_build_archive: "/var/www/build.tar.gz"
+
+
+magento_deploy_mode: production
+magento_locales:
+  - en_US
+
+magento_build_archive_enabled: no
+
+magento_build_files:
+  - .htaccess
+  - composer.json
+  - composer.lock
+  - index.php
+  - app/.htaccess
+  - app/autoload.php
+  - app/bootstrap.php
+  - app/functions.php
+  - app/design
+  - app/etc/NonComposerComponentRegistration.php
+  - app/etc/config.php
+  - app/etc/di.xml
+  - app/etc/vendor_path.php
+  - bin
+  - lib
+  - pub/.htaccess
+  - pub/cron.php
+  - pub/get.php
+  - pub/index.php
+  - pub/static.php
+  - pub/errors
+  - pub/static
+  - setup
+  - var/di
+  - var/generation
+  - vendor

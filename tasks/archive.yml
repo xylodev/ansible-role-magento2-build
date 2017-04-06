@@ -1,0 +1,11 @@
+---
+- name: Clear previous build archive
+  file:
+    path: "{{ magento_build_archive }}"
+    state: absent
+
+- name: Create build archive
+  shell: tar -czf {{ magento_build_archive }} {{ magento_build_files | join(' ') }}
+  args:
+    chdir: "{{ magento_vhost_dir }}"
+    warn: False

@@ -1,0 +1,18 @@
+---
+- name: Compile Dependency Injection container
+  command: php bin/magento setup:di:compile --no-interaction
+  args:
+    chdir: "{{ magento_vhost_dir }}"
+
+- name: Clear previous static content
+  file:
+    path: "{{ magento_vhost_dir }}/{{ item }}/"
+    state: absent
+  with_items:
+    - pub/static/frontend
+    - pub/static/_requirejs
+
+- name: Deploy static content
+  command: php bin/magento setup:static-content:deploy --no-interaction {{ magento_locales | join(' ') }}
+  args:
+    chdir: "{{ magento_vhost_dir }}"

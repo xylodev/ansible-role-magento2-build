@@ -1,0 +1,38 @@
+---
+- include: variables.yml
+
+- include: composer.yml
+
+- name: Setup upgrade
+  command: php bin/magento setup:upgrade --no-interaction
+  args:
+    chdir: "{{ magento_vhost_dir }}"
+
+- name: Clear cache and DI directories
+  file:
+    path: "{{ magento_vhost_dir }}/{{ item }}/"
+    state: absent
+  with_items:
+    - var/cache
+    - var/di
+    - var/generation
+    - var/page_cache
+    - var/view_preprocessed
+
+- name: Set deploy mode
+  command: php bin/magento deploy:mode:set --no-interaction --skip-compilation {{ magento_deploy_mode }}
+  args:
+    chdir: "{{ magento_vhost_dir }}"
+
+- include: build-production.yml
+  when: magento_deploy_mode == 'production'
+
+- name: Clean Magento cache
+  command: php bin/magento cache:clean --no-interaction
+  args:
+    chdir: "{{ magento_vhost_dir }}"
+
+- include: archive.yml
+  when: magento_build_archive_enabled
+  tags:
+    - archive

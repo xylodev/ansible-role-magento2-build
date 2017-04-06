@@ -1,0 +1,15 @@
+---
+# Variable configuration
+- name: Include OS-specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+  when: ansible_os_family == "FreeBSD"
+
+- name: Define magento_vhost_dir variable
+  set_fact:
+    magento_vhost_dir: "{{ __magento_vhost_dir }}"
+  when: magento_vhost_dir is not defined
+
+- name: Define magento_build_archive variable
+  set_fact:
+    magento_build_archive: "{{ __magento_build_archive }}"
+  when: magento_build_archive is not defined
